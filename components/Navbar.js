@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useStateValue } from "../StateProvider";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
+//for dummy checking
+import dummyAbi from "../contractConfig/dummyAddressAbi.json";
+import { dummyAddress } from "../contractConfig/dummyAddress.js";
+import { ethers } from "ethers";
 
 export default function Navbar() {
   const [{ user }, dispatch] = useStateValue();
@@ -10,13 +14,43 @@ export default function Navbar() {
   const [email, setEmail] = useState();
 
   //router functions
-  const router=useRouter();
-  const handleCertificateVerification=(e)=>{
-    router.push('/verify');
-  }
-  // useEffect(() => {
-  //   console.log("user in nav ", user);
-  // }, []);
+  const router = useRouter();
+  const handleCertificateVerification = (e) => {
+    router.push("/verify");
+  };
+  const handleProfileClick = async (e) => {
+    e.preventDefault(); //avoid refresh
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const dummyContract = new ethers.Contract(
+          dummyAddress,
+          dummyAbi.abi,
+          signer
+        );
+        //const {0:value}=await dummyContract.dummy_function();
+        dummyContract.on("dummy_event", async (sender, value1,value2,event) => {
+          // Called when anyone changes the value
+          console.log("res val is ",value1);
+          console.log("res val is ",value2);
+        });
+        // dummyContract
+        //   .dummy_function()
+        //   .then((res) => {
+        //     console.log("response is : ", res);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
+      } else {
+        console.log("ethereum object does not exist");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <header class="text-gray-600 body-font shadow-md">
@@ -37,11 +71,17 @@ export default function Navbar() {
             <span class="ml-3 text-xl">CourseZila</span>
           </a>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <a class="mr-5 hover:text-gray-900 cursor-pointer focus:outline-none hover:bg-gray-200 py-1 px-3" onClick={handleCertificateVerification}>
+            <a
+              class="mr-5 hover:text-gray-900 cursor-pointer focus:outline-none hover:bg-gray-200 py-1 px-3"
+              onClick={handleCertificateVerification}
+            >
               Verify Certificate
             </a>
             {user && (
-              <a class="mr-5 hover:text-gray-900 cursor-pointer focus:outline-none hover:bg-gray-200 py-1 px-3">
+              <a
+                class="mr-5 hover:text-gray-900 cursor-pointer focus:outline-none hover:bg-gray-200 py-1 px-3"
+                onClick={handleProfileClick}
+              >
                 Profile
               </a>
             )}
