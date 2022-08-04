@@ -1,7 +1,12 @@
 import React from 'react'
+import VerifyCertificate from '../../components/body/VerifyCertificate'
+import Navbar from '../../components/Navbar'
 
 export default function index() {
   return (
-    <div>this is verification page</div>
+    <div>
+        <Navbar/>
+        <VerifyCertificate/>
+    </div>
   )
 }

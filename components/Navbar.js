@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useStateValue } from "../StateProvider";
 import { useRouter } from "next/router";
-//for dummy checking
-import dummyAbi from "../contractConfig/dummyAddressAbi.json";
-import { dummyAddress } from "../contractConfig/dummyAddress.js";
-import { ethers } from "ethers";
+
+
+//for ipfs checking
+import { create } from 'ipfs-http-client'
+const client = create('https://ipfs.infura.io:5001/api/v0')
+
 
 export default function Navbar() {
   const [{ user }, dispatch] = useStateValue();
@@ -13,6 +15,12 @@ export default function Navbar() {
   const [fullname, setFullname] = useState();
   const [email, setEmail] = useState();
 
+  // for file read write testing
+  const [text, setText] = useState("");
+
+  //ipfs 
+  const [CID, setCID] = useState(``);
+
   //router functions
   const router = useRouter();
   const handleCertificateVerification = (e) => {
@@ -20,36 +28,35 @@ export default function Navbar() {
   };
   const handleProfileClick = async (e) => {
     e.preventDefault(); //avoid refresh
+    const file = "Prangon |" +user.account+ "| Title:Introduction to java | Issued by: Courszila";
     try {
-      const { ethereum } = window;
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const dummyContract = new ethers.Contract(
-          dummyAddress,
-          dummyAbi.abi,
-          signer
-        );
-        //const {0:value}=await dummyContract.dummy_function();
-        dummyContract.on("dummy_event", async (sender, value1,value2,event) => {
-          // Called when anyone changes the value
-          console.log("res val is ",value1);
-          console.log("res val is ",value2);
-        });
-        // dummyContract
-        //   .dummy_function()
-        //   .then((res) => {
-        //     console.log("response is : ", res);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
-      } else {
-        console.log("ethereum object does not exist");
-      }
+      const added = await client.add(file)
+     const cid=added.path;
+     console.log("cid is ",cid);
+     setCID(cid);
     } catch (error) {
-      console.log(error);
-    }
+      console.log('Error uploading file: ', error)
+    }  
+    // try {
+    //   const { ethereum } = window;
+    //   if (ethereum) {
+    //     const provider = new ethers.providers.Web3Provider(ethereum);
+    //     const signer = provider.getSigner();
+    //     const dummyContract = new ethers.Contract(
+    //       dummyAddress,
+    //       dummyAbi.abi,
+    //       signer
+    //     );
+    //     var res = await  dummyContract.add();
+    //     await res.wait(1);
+    //     const result = await dummyContract.dummy_function();
+    //     console.log("res is now ", result);
+    //   } else {
+    //     console.log("ethereum object does not exist");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   return (
     <div>
