@@ -37,14 +37,14 @@
             "name": "verifyCertificate",
             "outputs": [
                 {
-                    "internalType": "bool",
+                    "internalType": "string",
                     "name": "",
-                    "type": "bool"
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",
             "type": "function"
         }
-    ]    
-      
+    ]
+         
 }

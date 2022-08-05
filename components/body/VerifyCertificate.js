@@ -9,6 +9,7 @@ export default function VerifyCertificate() {
   const [verified,setVerified]=useState(false);
   const [right,setRight]=useState(false);
   const [wrong,setWrong]=useState(false);
+  const [expired,setExpired]=useState(false);
   const handleVerification = async (e) => {
 
     e.preventDefault();
@@ -22,14 +23,16 @@ export default function VerifyCertificate() {
         const Contract = new ethers.Contract(Address, AddressAbi.abi, signer);
         var res = await Contract.verifyCertificate(CID,wallet);
         //await res.wait(1);
-        if(res==true) {
+        if(res==="valid") {
           setRight(true);
-          console.log("verified");
+        }
+        else if(res==="invalid")
+        {
+          setWrong(true);
         }
         else 
         {
-          console.log("verified not");
-          setWrong(true);
+          setExpired(true);
         }
       } else {
         console.log("ethereum object does not exist");
@@ -46,9 +49,6 @@ export default function VerifyCertificate() {
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
               Verify Certificate
             </h1>
-            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-              Verify the certificates here
-            </p>
           </div>
           <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
             <div class="relative flex-grow w-full">
@@ -66,6 +66,7 @@ export default function VerifyCertificate() {
                   setVerified(false);
                   setRight(false);
                   setWrong(false);
+                  setExpired(false);
                   }}
               />
             </div>
@@ -84,6 +85,7 @@ export default function VerifyCertificate() {
                   setVerified(false);
                   setRight(false);
                   setWrong(false);
+                  setExpired(false);
                   }}
               />
             </div>
@@ -104,6 +106,12 @@ export default function VerifyCertificate() {
               onClick={handleVerification}
             >
               Invalid
+            </button>}
+            {verified && expired &&  <button
+              class="text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-lg"
+              onClick={handleVerification}
+            >
+              Expired
             </button>}
           </div>
          
