@@ -14,114 +14,11 @@
                     "internalType": "string",
                     "name": "CID",
                     "type": "string"
-                },
-                {
-                    "internalType": "address",
-                    "name": "wallet_address",
-                    "type": "address"
                 }
             ],
             "name": "requestCertificate",
             "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
             "stateMutability": "payable",
-            "type": "receive"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "array",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "CID",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "name": "cidToAddress",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "name": "cidToCertificate",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "CID",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "enrolledStudents",
-            "outputs": [
-                {
-                    "internalType": "uint8",
-                    "name": "",
-                    "type": "uint8"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "wallet_address",
-                    "type": "address"
-                }
-            ],
-            "name": "getNumberofCertificates",
-            "outputs": [],
-            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -148,6 +45,6 @@
             "stateMutability": "view",
             "type": "function"
         }
-    ]
+    ]    
       
 }

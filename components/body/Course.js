@@ -21,9 +21,8 @@ export default function Course({ id, img, title, desc, price }) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const Contract = new ethers.Contract(Address, AddressAbi.abi, signer);
-
-        //   var res = await  Contract.depositFund( { value: ethers.utils.parseEther(price.toString()) },);
-        //  await res.wait(1);
+          var res = await  Contract.depositFund( { value: ethers.utils.parseEther(price.toString()) },);
+         await res.wait(1);
         dispatch({
           type: "ADD TO ENROLLED",
           item: {
@@ -66,13 +65,12 @@ export default function Course({ id, img, title, desc, price }) {
         </h3>
         <h2 class="text-gray-900 title-font text-lg font-medium">{desc}</h2>
         <p class="mt-1">{price} Eth</p>
-        <button
+       { !disabled && <button
           class="flex mx-auto mt-6 text-white bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded"
           onClick={handleEnroll}
-          disabled={disabled}
         >
           Enroll Now
-        </button>
+        </button>}
       </div>
     </div>
   );

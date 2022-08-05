@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useStateValue } from "../../StateProvider";
+import AddressAbi from "../../contractConfig/AddressAbi.json";
+import { Address } from "../../contractConfig/ContractAddress.js";
+import { ethers } from "ethers";
 //for ipfs checking
 import { create } from "ipfs-http-client";
 const client = create("https://ipfs.infura.io:5001/api/v0");
@@ -30,19 +33,7 @@ export default function EnrolledCourse({ id, title, desc, price }) {
       // ipfs returns cid
       const added = await client.add(str);
       const cid = added.path;
-      //console.log("cid is ",cid);
       setCID(cid);
-      //give cid to smart contract
-      //   var res = await  Contract.depositFund( { value: ethers.utils.parseEther(price.toString()) },);
-      //  await res.wait(1);
-
-      //here user is  paid back the ethers verifying that the cid exists in the smart contract
-      //   var res = await  Contract.depositFund( );
-      //  await res.wait(1);
-      dispatch({
-        type: "REMOVE FROM ENROLLED",
-        id: id,
-      });
       dispatch({
         type: "ADD TO CERTIFICATES",
         item: {
@@ -55,6 +46,24 @@ export default function EnrolledCourse({ id, title, desc, price }) {
           account: user.account,
         },
       });
+      //give cid to smart contract
+      const { ethereum } = window;
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const Contract = new ethers.Contract(Address, AddressAbi.abi, signer);
+        var res = await Contract.requestCertificate(cid);
+        await res.wait(1);
+        if(res) 
+        {
+          dispatch({
+            type: "REMOVE FROM ENROLLED",
+            id: id,
+          });
+        }
+      } else {
+        console.log("ethereum object does not exist");
+      }
     } catch (error) {
       console.log("Error happened ", error);
     }
