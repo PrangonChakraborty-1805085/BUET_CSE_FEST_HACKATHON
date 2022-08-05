@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useStateValue } from "../StateProvider";
 import { useRouter } from "next/router";
-
-
-//for ipfs checking
-import { create } from 'ipfs-http-client'
-const client = create('https://ipfs.infura.io:5001/api/v0')
+import Link from "next/link";
 
 
 export default function Navbar() {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user,certificates }, dispatch] = useStateValue();
 
   //user creadentials
   const [fullname, setFullname] = useState();
@@ -18,50 +14,27 @@ export default function Navbar() {
   // for file read write testing
   const [text, setText] = useState("");
 
-  //ipfs 
-  const [CID, setCID] = useState(``);
-
   //router functions
   const router = useRouter();
   const handleCertificateVerification = (e) => {
     router.push("/verify");
   };
-  const handleProfileClick = async (e) => {
+  const handleEnrolled=(e)=>{
+    router.push("/enrolled");
+  }
+  const handleProfileClick = (e) => {
     e.preventDefault(); //avoid refresh
-    const file = "Prangon |" +user.account+ "| Title:Introduction to java | Issued by: Courszila";
-    try {
-      const added = await client.add(file)
-     const cid=added.path;
-     console.log("cid is ",cid);
-     setCID(cid);
-    } catch (error) {
-      console.log('Error uploading file: ', error)
-    }  
-    // try {
-    //   const { ethereum } = window;
-    //   if (ethereum) {
-    //     const provider = new ethers.providers.Web3Provider(ethereum);
-    //     const signer = provider.getSigner();
-    //     const dummyContract = new ethers.Contract(
-    //       dummyAddress,
-    //       dummyAbi.abi,
-    //       signer
-    //     );
-    //     var res = await  dummyContract.add();
-    //     await res.wait(1);
-    //     const result = await dummyContract.dummy_function();
-    //     console.log("res is now ", result);
-    //   } else {
-    //     console.log("ethereum object does not exist");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    router.push("/profile");
+  
   };
+  const handleDisconnect=async (e) =>{
+
+  }
   return (
     <div>
       <header class="text-gray-600 body-font shadow-md">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+          <Link href={!user?"/":"/courses"}>
           <a class="flex title-font font-medium cursor-pointer items-center text-gray-900 mb-4 md:mb-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -77,6 +50,7 @@ export default function Navbar() {
             </svg>
             <span class="ml-3 text-xl">CourseZila</span>
           </a>
+          </Link>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <a
               class="mr-5 hover:text-gray-900 cursor-pointer focus:outline-none hover:bg-gray-200 py-1 px-3"
@@ -93,8 +67,13 @@ export default function Navbar() {
               </a>
             )}
             {user && (
-              <a class="mr-5 hover:text-gray-900 cursor-pointer focus:outline-none hover:bg-gray-200 py-1 px-3">
+              <a class="mr-5 hover:text-gray-900 cursor-pointer focus:outline-none hover:bg-gray-200 py-1 px-3" onClick={handleEnrolled}>
                 Enrolled Courses
+              </a>
+            )}
+            {user && (
+              <a class="mr-5 hover:text-gray-900 cursor-pointer focus:outline-none hover:bg-gray-200 py-1 px-3" onClick={handleDisconnect}>
+                {user.account}
               </a>
             )}
           </nav>

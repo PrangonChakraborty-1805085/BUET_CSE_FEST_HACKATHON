@@ -1,5 +1,6 @@
 export const initialState = {
   enrolled: [],
+  certificates:[],
   user: null,
 };
 
@@ -8,8 +9,13 @@ export const reducer = (state, action) => {
     case "ADD TO ENROLLED":
       return {
         ...state,
-        basket: [...state.enrolled, action.item],
+        enrolled: [...state.enrolled, action.item],
       };
+      case "ADD TO CERTIFICATES":
+        return {
+          ...state,
+          certificates: [...state.certificates, action.item],
+        };
     case "REMOVE FROM ENROLLED":
       const indexx = state.enrolled.findIndex((item) => item.id === action.id);
       let newEnrolled = [...state.enrolled];

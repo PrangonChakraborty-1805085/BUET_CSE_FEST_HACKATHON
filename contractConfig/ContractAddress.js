@@ -1,1 +1,1 @@
-export const Address = "0x5926ca5cac10144d9d3A5A445498A564f8db0f5b";
+export const Address = "0x6beAA22318e0d4d17d17058279Fa1e4c555044FF";

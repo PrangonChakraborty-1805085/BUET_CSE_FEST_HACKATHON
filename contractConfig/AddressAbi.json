@@ -3,33 +3,104 @@
     "abi":[
         {
             "inputs": [],
-            "name": "add",
+            "name": "depositFund",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "CID",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "wallet_address",
+                    "type": "address"
+                }
+            ],
+            "name": "requestCertificate",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
         },
         {
-            "anonymous": false,
+            "stateMutability": "payable",
+            "type": "receive"
+        },
+        {
             "inputs": [
                 {
-                    "indexed": false,
                     "internalType": "address",
-                    "name": "sender",
+                    "name": "",
                     "type": "address"
                 },
                 {
-                    "indexed": false,
-                    "internalType": "uint8",
-                    "name": "_number",
-                    "type": "uint8"
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
                 }
             ],
-            "name": "added",
-            "type": "event"
+            "name": "array",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "CID",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "inputs": [],
-            "name": "dummy_function",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "name": "cidToAddress",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "name": "cidToCertificate",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "CID",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "enrolledStudents",
             "outputs": [
                 {
                     "internalType": "uint8",
@@ -41,18 +112,42 @@
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "number",
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "wallet_address",
+                    "type": "address"
+                }
+            ],
+            "name": "getNumberofCertificates",
+            "outputs": [],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "CID",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "wallet_address",
+                    "type": "address"
+                }
+            ],
+            "name": "verifyCertificate",
             "outputs": [
                 {
-                    "internalType": "uint8",
+                    "internalType": "bool",
                     "name": "",
-                    "type": "uint8"
+                    "type": "bool"
                 }
             ],
             "stateMutability": "view",
             "type": "function"
         }
-    ]    
-       
+    ]
+      
 }
